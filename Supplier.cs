@@ -6,7 +6,6 @@ namespace Project
 {
     public class Supplier : SupplierShort
     {
-        private int? id;
         private string address;
         private string email;
  
@@ -26,16 +25,6 @@ namespace Project
         public static bool ValidateEmail(string email)
         {
             return !string.IsNullOrEmpty(email) && Regex.IsMatch(email, @"(.+)@(.+)\.(.+)");
-        }
- 
-        public int? GetId()
-        {
-            return id;
-        }
- 
-        public void SetId(int? id)
-        {
-            this.id = id;
         }
  
         public string GetAddress()
@@ -72,22 +61,12 @@ namespace Project
             }
         }
  
-        public override string ToString()
+        public string ToFullString()
         {
             return $"ID: {id}, Name: {name}, Address: {address}, Phone: {phoneNumber}, Email: {email}, INN: {inn}, OGRN: {ogrn}";
         }
- 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
- 
-            Supplier other = (Supplier)obj;
-            return inn == other.inn && ogrn == other.ogrn;
-        }
     }
+    
     class Program
     {
         public static void Main(string[] args)
