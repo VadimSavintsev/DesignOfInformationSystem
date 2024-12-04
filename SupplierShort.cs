@@ -5,6 +5,7 @@ namespace Project
 {
     public class SupplierShort
     {
+        protected int? id;
         protected string name;
         protected string phoneNumber;
         protected string inn;
@@ -16,6 +17,16 @@ namespace Project
             SetPhoneNumber(phoneNumber);
             SetInn(inn);
             SetOgrn(ogrn);
+        }
+
+        public int? GetId()
+        {
+            return id;
+        }
+
+        public void SetId(int? id)
+        {
+            this.id=id;
         }
  
         public static bool ValidateName(string name)
@@ -101,8 +112,18 @@ namespace Project
                 throw new ArgumentException("ОГРН должен содержать 13 цифр");
             }
         }
+
+        public override bool Equals(object obj)
+        {
+           if (obj == null || GetType() != obj.GetType())
+           {
+               return false;
+           }
+           Supplier other = (Supplier)obj;
+           return inn == other.inn && ogrn == other.ogrn;
+        }
  
-        public override string ToString()
+        public string ToShortString()
         {
             return $"Name: {name}, Phone: {phoneNumber}, INN: {inn}, OGRN: {ogrn}";
         }
