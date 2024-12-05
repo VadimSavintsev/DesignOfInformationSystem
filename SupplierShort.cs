@@ -19,6 +19,15 @@ namespace Project
             SetOgrn(ogrn);
         }
 
+        public SupplierShort(int? id, string name, string phoneNumber, string inn, string ogrn)
+        {
+            SetId(id);
+            SetName(name);
+            SetPhoneNumber(phoneNumber);
+            SetInn(inn);
+            SetOgrn(ogrn);
+        }
+
         public int? GetId()
         {
             return id;
