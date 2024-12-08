@@ -10,14 +10,6 @@ namespace Project
         protected string phoneNumber;
         protected string inn;
         protected string ogrn;
- 
-        public SupplierShort(string name, string phoneNumber, string inn, string ogrn)
-        {
-            SetName(name);
-            SetPhoneNumber(phoneNumber);
-            SetInn(inn);
-            SetOgrn(ogrn);
-        }
 
         public SupplierShort(int? id, string name, string phoneNumber, string inn, string ogrn)
         {
@@ -134,7 +126,7 @@ namespace Project
  
         public string ToShortString()
         {
-            return $"Name: {name}, Phone: {phoneNumber}, INN: {inn}, OGRN: {ogrn}";
+            return $"ID: {id}, Name: {name}, Phone: {phoneNumber}, INN: {inn}, OGRN: {ogrn}";
         }
     }
 }
