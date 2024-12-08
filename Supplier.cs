@@ -16,13 +16,6 @@ namespace Project
             SetAddress(address);
             SetEmail(email);
         }
-        
-        public Supplier(string name, string address, string phoneNumber, string email, string inn, string ogrn)
-            : base(name, phoneNumber, inn, ogrn)
-        {
-            SetAddress(address);
-            SetEmail(email);
-        }
  
         public static bool ValidateAddress(string address)
         {
