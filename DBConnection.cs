@@ -20,13 +20,12 @@ namespace Program
         // Конструктор
         private DBConnection(string dbName, string user, string password, string host, string port)
         {
-            DbName = dbName;
-            User = user;
-            Password = password;
-            Host = host;
-            Port = port;
+            this.DbName = dbName;
+            this.User = user;
+            this.Password = password;
+            this.Host = host;
+            this.Port = port;
             Connect();
-            CreateTableIfNotExists();
         }
 
         // Подключение к базе данных
