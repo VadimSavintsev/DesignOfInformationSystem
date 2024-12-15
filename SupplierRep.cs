@@ -42,13 +42,13 @@ namespace Program
         }
 
         // Получить объект по ID
-        public Supplier GetById(int id)
+        public Supplier GetObjectById(int id)
         {
             return suppliers.FirstOrDefault(supplier => supplier.GetId() == id);
         }
 
         // Получить список k по счету n объектов
-        public List<SupplierShort> GetKNShortList(int k, int n)
+        public List<SupplierShort> GetKthNList(int k, int n)
         {
             return suppliers.Skip(k * n).Take(n)
                              .Select(supplier => new SupplierShort(
@@ -73,7 +73,7 @@ namespace Program
         }
 
         // Добавить объект в список (сформировать новый ID)
-        public void AddItem(Supplier supplier)
+        public void AddSupplier(Supplier supplier)
         {
             var newId = suppliers.Any() ? suppliers.Max(x => x.GetId()) + 1 : 1;
             supplier.SetId(newId);
@@ -86,7 +86,7 @@ namespace Program
         }
 
         // Заменить элемент списка по ID
-        public void ReplaceById(int id, Supplier newSupplier)
+        public void ReplaceSupplierById(int id, Supplier newSupplier)
         {
             var index = suppliers.FindIndex(supplier => supplier.GetId() == id);
             if (index != -1)
@@ -102,7 +102,7 @@ namespace Program
         }
 
         // Удалить элемент списка по ID
-        public void DeleteById(int id)
+        public void DeleteSupplierById(int id)
         {
             var index = suppliers.FindIndex(supplier => supplier.GetId() == id);
             if (index != -1)
