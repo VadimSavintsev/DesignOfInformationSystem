@@ -16,15 +16,6 @@ namespace Program
             this.yamlfilePath = yamlfilePath;
         }
 
-        public SupplierRepYaml(string filePath)
-        {
-            _filePath = filePath;
-            if (!File.Exists(_filePath))
-            {
-                File.WriteAllText(_filePath, "[]"); // Создаем пустой YAML-файл, если его нет
-            }
-        }
-
         // Чтение всех значений из файла
         public List<Supplier> ReadAllValues()
         {    
@@ -44,14 +35,14 @@ namespace Program
         }
 
         // Запись всех значений в файл
-        public void WriteAllValues(List<Supplier> data)
+        public void WriteAllValues(List<Supplier> suppliers)
         {
             try
             {
                 var serializer = new SerializerBuilder()
                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
                     .Build();
-                var yaml = serializer.Serialize(data);
+                var yaml = serializer.Serialize(suppliers);
                 File.WriteAllText(_filePath, yaml);
             }
             catch (Exception ex)
