@@ -165,7 +165,7 @@ namespace Program
         }
 
         // Замена элемента по ID
-        public bool ReplaceSupplierById(int id, Supplier newSupplier)
+        public void ReplaceSupplierById(int id, Supplier newSupplier)
         {
             if (!IsUnique(newSupplier.GetInn(),newSupplier.GetOgrn()))
             {
