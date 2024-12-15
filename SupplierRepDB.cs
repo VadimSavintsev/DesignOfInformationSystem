@@ -20,6 +20,35 @@ namespace Program
             return dbConnection.GetConnection(); // Делегация к DBConnection
         }
 
+        private void CreateTableIfNotExists()
+        {
+            string createTableSQL = $@"
+                CREATE TABLE IF NOT EXISTS {TableName} (
+                    Id SERIAL PRIMARY KEY,
+                    Name VARCHAR(100) NOT NULL,
+                    Address VARCHAR(255) NOT NULL,
+                    PhoneNumber VARCHAR(20) NOT NULL,
+                    Email VARCHAR(100) NOT NULL,
+                    Inn VARCHAR(12) NOT NULL,
+                    Ogrn VARCHAR(15) NOT NULL
+                )";
+            try
+            {
+                using (var conn = GetConnection())
+                using (var cmd = new NpgsqlCommand(createTableSQL, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine($"Таблица \"{TableName}\" проверена/создана.");
+                }
+            }
+            catch (NpgsqlException e)
+            {
+                Console.WriteLine($"Ошибка при создании таблицы: {TableName}");
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         // Методы для исправления повтора кода
         // Заполнение PreparedStatement
         private void FillSupplierStatement(NpgsqlCommand cmd, Supplier supplier)
