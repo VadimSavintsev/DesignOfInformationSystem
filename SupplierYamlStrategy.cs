@@ -35,7 +35,7 @@ namespace Program
         }
 
         // Запись всех значений в файл
-        public void WriteAllValues(List<Supplier> suppliers)
+        public void WriteAllValues(List<Supplier> data)
         {
             try
             {
