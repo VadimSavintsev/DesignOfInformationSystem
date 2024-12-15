@@ -29,11 +29,11 @@ namespace Program
             }
         }
 
-        public void WriteAllValues(List<Supplier> data)
+        public void WriteAllValues(List<Supplier> suppliers)
         {
             try
             {
-                var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(suppliers, Formatting.Indented);
                 File.WriteAllText(jsonfilePath, json);
             }
             catch (Exception ex)
