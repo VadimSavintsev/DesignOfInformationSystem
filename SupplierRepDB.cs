@@ -96,7 +96,7 @@ namespace Program
                 cmd.Parameters.AddWithValue("Inn", inn);
                 cmd.Parameters.AddWithValue("Ogrn", ogrn);
                 var count = Convert.ToInt32(cmd.ExecuteScalar());
-                return count == 0; // Уникально, если результат = 0
+                return count == 0;
             }
         }
 
