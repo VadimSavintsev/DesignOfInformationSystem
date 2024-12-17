@@ -25,7 +25,7 @@ namespace Program
             catch (Exception ex)
             {
                 Console.WriteLine($"Error reading JSON file: {ex.Message}");
-                return new List<Supplier>(); // Возвращаем пустой список в случае ошибки
+                return new List<Supplier>();
             }
         }
 
