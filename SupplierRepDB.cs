@@ -62,7 +62,7 @@ namespace Program
         }
 
         // Запись результата в объект
-        private Supplier MapSupplier(NpgsqlDataReader reader)
+        private Supplier ReadSupplier(NpgsqlDataReader reader)
         {
             return new Supplier(
                 reader.GetInt32(reader.GetOrdinal("Id")),
@@ -75,7 +75,7 @@ namespace Program
             );
         }
 
-        private SupplierShort MapSupplierShort(NpgsqlDataReader reader)
+        private SupplierShort ReadSupplierShort(NpgsqlDataReader reader)
         {
             return new SupplierShort(
                 reader.GetInt32(reader.GetOrdinal("Id")),
@@ -101,18 +101,18 @@ namespace Program
         }
 
         // Получение объекта по ID
-        public Supplier GetObjectById(int id)
+        public Supplier GetObjectById(int? id)
         {
             string sql = $"SELECT * FROM {TableName} WHERE Id = @Id";
             using (var conn = GetConnection())
             using (var cmd = new NpgsqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("Id", id.Values);
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        return MapSupplier(reader);
+                        return ReadSupplier(reader);
                     }
                 }
             }
@@ -134,7 +134,7 @@ namespace Program
                 {
                     while (reader.Read())
                     {
-                        suppliersShort.Add(MapSupplierShort(reader));
+                        suppliersShort.Add(ReadSupplierShort(reader));
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace Program
         }
 
         // Замена элемента по ID
-        public void ReplaceSupplierById(int id, Supplier newSupplier)
+        public void ReplaceSupplierById(int? id, Supplier newSupplier)
         {
             if (!IsUnique(newSupplier.GetInn(),newSupplier.GetOgrn()))
             {
@@ -177,20 +177,20 @@ namespace Program
             using (var cmd = new NpgsqlCommand(sql, conn))
             {
                 FillSupplierStatement(cmd, newSupplier);
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("Id", id.Value);
                 cmd.ExecuteNonQuery();
                 return true;
             }
         }
 
         // Удаление элемента по ID
-        public void DeleteSupplierById(int id)
+        public void DeleteSupplierById(int? id)
         {
             string sql = $"DELETE FROM {TableName} WHERE Id = @Id";
             using (var conn = GetConnection())
             using (var cmd = new NpgsqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("Id", id.Value);
                 cmd.ExecuteNonQuery();
             }
         }
