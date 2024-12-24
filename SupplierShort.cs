@@ -7,14 +7,19 @@ namespace Project
     public class SupplierShort
     {
         [JsonInclude]
+        [YamlMember(Alias = "id")]
         protected int? id;
         [JsonInclude]
+        [YamlMember(Alias = "name")]
         protected string name;
         [JsonInclude]
+        [YamlMember(Alias = "phoneNumber")]
         protected string phoneNumber;
         [JsonInclude]
+        [YamlMember(Alias = "inn")]
         protected string inn;
         [JsonInclude]
+        [YamlMember(Alias = "ogrn")]
         protected string ogrn;
 
         public SupplierShort(int? id, string name, string phoneNumber, string inn, string ogrn)
@@ -26,14 +31,16 @@ namespace Project
             SetOgrn(ogrn);
         }
 
-        public int? GetId()
+        public int? Id
         {
-            return id;
-        }
-
-        public void SetId(int? id)
-        {
-            this.id=id;
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+            }
         }
  
         public static bool ValidateName(string name)
@@ -53,70 +60,79 @@ namespace Project
             return !string.IsNullOrEmpty(ogrn) && Regex.IsMatch(ogrn, @"\d{13}");
         }
  
-        public string GetName()
+        public string Name
         {
-            return name;
-        }
- 
-        public void SetName(string name)
-        {
-            if (ValidateName(name))
+            get
             {
-                this.name = name;
+                return name;
             }
-            else
+            set
             {
-                throw new ArgumentException("Название должно содержать только русские символы");
-            }
-        }
- 
-        public string GetPhoneNumber()
-        {
-            return phoneNumber;
-        }
- 
-        public void SetPhoneNumber(string phoneNumber)
-        {
-            if (ValidatePhoneNumber(phoneNumber))
-            {
-                this.phoneNumber = phoneNumber;
-            }
-            else
-            {
-                throw new ArgumentException("Телефон должен содержать цифры и быть записан в формате: +7 (***) ***-**-**");
+                if (ValidateName(value))
+                {
+                    name = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Название должно содержать только русские символы, пробелы и дефисы");
+                }
             }
         }
  
-        public string GetInn()
+        public string PhoneNumber
         {
-            return inn;
+            get
+            {
+                return phoneNumber;
+            }
+            set
+            {
+                if (ValidatePhoneNumber(value))
+                {
+                    phoneNumber = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Телефон должен содержать цифры и быть записан в формате: +7 (***) ***-**-**");
+                }
+            }
         }
  
-        public void SetInn(string inn)
+        public string Inn
         {
-            if (ValidateInn(inn))
+            get
             {
-                this.inn = inn;
+                return inn;
             }
-            else
+            set
             {
-                throw new ArgumentException("ИНН должен содержать 10 цифр");
+                if (ValidateInn(value))
+                {
+                    inn = value;
+                }
+                else
+                {
+                    throw new ArgumentException("ИНН должен содержать 10 цифр");
+                }
             }
         }
-        public string GetOgrn()
+     
+        public string Ogrn
         {
-            return ogrn;
-        }
- 
-        public void SetOgrn(string ogrn)
-        {
-            if (ValidateOgrn(ogrn))
+            get
             {
-                this.ogrn = ogrn;
+                return ogrn;
             }
-            else
+            set
             {
-                throw new ArgumentException("ОГРН должен содержать 13 цифр");
+                if (ValidateOgrn(value))
+                {
+                    ogrn = value;
+                }
+                else
+                {
+                    throw new ArgumentException("ОГРН должен содержать 13 цифр");
+                }
             }
         }
 
