@@ -77,5 +77,15 @@ namespace Program
         {
             return suppliers.OrderBy(supplier => supplier.Inn).ToList();
         }
+
+        public void AddSupplier(Supplier newSupplier)
+        {
+            var suppliers = ReadAllValues();
+            int? maxId = suppliers.Count > 0 ? suppliers.Max(supplier => supplier.Id) : null;
+            int newId = maxId.HasValue ? maxId.Value + 1 : 1;
+            newSupplier.Id=newId;
+            suppliers.Add(newSupplier);
+            WriteAllValues(suppliers);
+        }
     }
 }
