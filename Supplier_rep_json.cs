@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Linq;
 using Project;
 
 namespace Program
@@ -36,6 +37,12 @@ namespace Program
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             });
             File.WriteAllText(filePath, jsonSupplier, Encoding.UTF8);
+        }
+
+        public Supplier GetSupplierById(int? id)
+        {
+            var suppliers = ReadAllValues();
+            return suppliers.FirstOrDefault(supplier => supplier.GetId() == id.Value);
         }
     }
 }
