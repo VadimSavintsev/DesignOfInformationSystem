@@ -1,14 +1,20 @@
 using System;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
  
 namespace Project
 {
     public class SupplierShort
     {
+        [JsonInclude]
         protected int? id;
+        [JsonInclude]
         protected string name;
+        [JsonInclude]
         protected string phoneNumber;
+        [JsonInclude]
         protected string inn;
+        [JsonInclude]
         protected string ogrn;
 
         public SupplierShort(int? id, string name, string phoneNumber, string inn, string ogrn)
