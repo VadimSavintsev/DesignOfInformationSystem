@@ -42,7 +42,7 @@ namespace Program
         public Supplier GetSupplierById(int? id)
         {
             var suppliers = ReadAllValues();
-            return suppliers.FirstOrDefault(supplier => supplier.GetId() == id.Value);
+            return suppliers.FirstOrDefault(supplier => supplier.Id == id.Value);
         }
 
         public List<SupplierShort> Get_k_n_short_list(int k, int n)
@@ -59,7 +59,7 @@ namespace Program
             for (int i = n; i < n + k && i < suppliers.Count; i++)
             {
                 var supplier = suppliers[i];
-                var supplierShort = new SupplierShort(supplier.GetId(),supplier.GetName(),supplier.GetPhoneNumber(),supplier.GetInn(),supplier.GetOgrn());
+                var supplierShort = new SupplierShort(supplier.Id,supplier.Name,supplier.PhoneNumber,supplier.Inn,supplier.Ogrn);
 
                 shortList.Add(supplierShort);
             }
@@ -69,15 +69,15 @@ namespace Program
 
         public List<Supplier> SortByInn(List<Supplier> suppliers)
         {
-            return suppliers.OrderBy(supplier => supplier.GetInn()).ToList();
+            return suppliers.OrderBy(supplier => supplier.Inn).ToList();
         }
 
         public void AddSupplier(Supplier newSupplier)
         {
             var suppliers = ReadAllValues();
-            int? maxId = suppliers.Count > 0 ? suppliers.Max(supplier => supplier.GetId()) : null;
+            int? maxId = suppliers.Count > 0 ? suppliers.Max(supplier => supplier.Id) : null;
             int newId = maxId.HasValue ? maxId.Value + 1 : 1;
-            newSupplier.SetId(newId);
+            newSupplier.Id=newId;
             suppliers.Add(newSupplier);
             WriteAllValues(suppliers);
         }
@@ -85,7 +85,7 @@ namespace Program
         public void ReplaceSupplierById(int id, Supplier newSupplier)
         {
             var suppliers = ReadAllValues();
-            var existingSupplier = suppliers.FirstOrDefault(supplier => supplier.GetId() == id);
+            var existingSupplier = suppliers.FirstOrDefault(supplier => supplier.Id == id);
 
             if (existingSupplier == null)
             {
@@ -94,14 +94,14 @@ namespace Program
 
             int index = suppliers.IndexOf(existingSupplier);
             suppliers[index] = newSupplier;
-            newSupplier.SetId(id);
+            newSupplier.Id=id;
             WriteAllValues(suppliers);
         }
 
         public void DeleteSupplierById(int id)
         {
             var suppliers = ReadAllValues();
-            var supplierToDelete = suppliers.FirstOrDefault(supplier => supplier.GetId() == id);
+            var supplierToDelete = suppliers.FirstOrDefault(supplier => supplier.Id == id);
 
             if (supplierToDelete == null)
             {
