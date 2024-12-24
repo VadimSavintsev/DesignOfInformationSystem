@@ -75,7 +75,7 @@ namespace Program
         public void AddSupplier(Supplier newSupplier)
         {
             var suppliers = ReadAllValues();
-            int? maxId = suppliers.Count > 0 ? suppliers.Max(s => s.GetId()) : null;
+            int? maxId = suppliers.Count > 0 ? suppliers.Max(supplier => supplier.GetId()) : null;
             int newId = maxId.HasValue ? maxId.Value + 1 : 1;
             newSupplier.SetId(newId);
             suppliers.Add(newSupplier);
@@ -95,6 +95,20 @@ namespace Program
             int index = suppliers.IndexOf(existingSupplier);
             suppliers[index] = newSupplier;
             newSupplier.SetId(id);
+            WriteAllValues(suppliers);
+        }
+
+        public void DeleteSupplierById(int id)
+        {
+            var suppliers = ReadAllValues();
+            var supplierToDelete = suppliers.FirstOrDefault(supplier => supplier.GetId() == id);
+
+            if (supplierToDelete == null)
+            {
+                throw new ArgumentException($"Поставщик с ID {id} не найден.");
+            }
+
+            suppliers.Remove(supplierToDelete);
             WriteAllValues(suppliers);
         }
     }
