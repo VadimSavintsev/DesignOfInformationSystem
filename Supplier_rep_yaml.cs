@@ -87,5 +87,21 @@ namespace Program
             suppliers.Add(newSupplier);
             WriteAllValues(suppliers);
         }
+
+        public void ReplaceSupplierById(int id, Supplier newSupplier)
+        {
+            var suppliers = ReadAllValues();
+            var existingSupplier = suppliers.FirstOrDefault(supplier => supplier.Id == id);
+
+            if (existingSupplier == null)
+            {
+                throw new ArgumentException($"Поставщик с ID {id} не найден.");
+            }
+
+            int index = suppliers.IndexOf(existingSupplier);
+            suppliers[index] = newSupplier;
+            newSupplier.Id = id;
+            WriteAllValues(suppliers);
+        }
     }
 }
