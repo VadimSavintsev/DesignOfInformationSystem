@@ -7,8 +7,10 @@ namespace Project
     public class Supplier : SupplierShort
     {
         [JsonInclude]
+        [YamlMember(Alias = "address")]
         private string address;
         [JsonInclude]
+        [YamlMember(Alias = "email")]
         private string email;
  
         public Supplier(int?id, string name, string address, string phoneNumber, string email, string inn, string ogrn)
@@ -28,37 +30,41 @@ namespace Project
             return !string.IsNullOrEmpty(email) && Regex.IsMatch(email, @"(.+)@(.+)\.(.+)");
         }
  
-        public string GetAddress()
+        public string Address
         {
-            return address;
+            get
+            {
+                return address;
+            }
+            set
+            {
+                if (ValidateAddress(value))
+                {
+                    address = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Адрес должен содержать через запятую город, улицу и дом с номером");
+                }
+            }
         }
  
-        public void SetAddress(string address)
+        public string Email
         {
-            if (ValidateAddress(address))
+            get
             {
-                this.address = address;
+                return email;
             }
-            else
+            set
             {
-                throw new ArgumentException("Адрес должен содержать через запятую город, улицу и дом с номером");
-            }
-        }
- 
-        public string GetEmail()
-        {
-            return email;
-        }
- 
-        public void SetEmail(string email)
-        {
-            if (ValidateEmail(email))
-            {
-                this.email = email;
-            }
-            else
-            {
-                throw new ArgumentException("Неверно введён адрес электронной почты");
+                if (ValidateEmail(value))
+                {
+                    email = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Неверно введён адрес электронной почты");
+                }
             }
         }
  
