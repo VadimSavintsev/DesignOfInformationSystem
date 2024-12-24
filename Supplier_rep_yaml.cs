@@ -72,5 +72,10 @@ namespace Program
 
             return shortList;
         }
+
+        public List<Supplier> SortByInn(List<Supplier> suppliers)
+        {
+            return suppliers.OrderBy(supplier => supplier.Inn).ToList();
+        }
     }
 }
