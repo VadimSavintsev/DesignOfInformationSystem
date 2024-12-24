@@ -1,15 +1,16 @@
 using System;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
  
 namespace Project
 {
     public class Supplier : SupplierShort
     {
+        [JsonInclude]
         private string address;
+        [JsonInclude]
         private string email;
  
-        [JsonConstructor]
         public Supplier(int?id, string name, string address, string phoneNumber, string email, string inn, string ogrn)
             : base(id, name, phoneNumber, inn, ogrn)
         {
@@ -64,33 +65,6 @@ namespace Project
         public string ToFullString()
         {
             return $"ID: {id}, Name: {name}, Address: {address}, Phone: {phoneNumber}, Email: {email}, INN: {inn}, OGRN: {ogrn}";
-        }
-    }
-    
-    class Program
-    {
-        public static void Main(string[] args)
-        {
-            Supplier supplier = new Supplier(
-            name: "ИП Иванов-Петров",
-            address: "Санкт-Петербург, Невский проспект, 45",
-            phoneNumber: "+7 (812) 987-65-43",
-            email: "info@kopytairoga.ru",
-            inn: "0987654321",
-            ogrn: "3210987654321"
-            );
-            string json = @"{
-            ""name"": ""ИП Петров"",
-            ""address"": ""Москва, Невский проспект, 45"",
-            ""phoneNumber"": ""+7 (812) 987-65-43"",
-            ""email"": ""info@kopytairoga.ru"",
-            ""inn"": ""0987654321"",
-            ""ogrn"": ""3210987654326""
-        }";
-            Supplier sup2 = JsonConvert.DeserializeObject<Supplier>(json);
-            Console.WriteLine(supplier.ToString());
-            Console.WriteLine(supplier.Equals(sup2) ? "Объекты равны" : "Объекты не равны");
-            Console.ReadKey(true);
         }
     }
 }
