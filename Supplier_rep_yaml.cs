@@ -50,5 +50,27 @@ namespace Program
             var suppliers = ReadAllValues();
             return suppliers.FirstOrDefault(supplier => supplier.Id == id);
         }
+
+        public List<SupplierShort> Get_k_n_short_list(int k, int n)
+        {
+            var suppliers = ReadAllValues();
+
+            if (n < 0 || n >= suppliers.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(n), "Индекс n выходит за пределы списка.");
+            }
+
+            var shortList = new List<SupplierShort>();
+
+            for (int i = n; i < n + k && i < suppliers.Count; i++)
+            {
+                var supplier = suppliers[i];
+                var supplierShort = new SupplierShort(supplier.Id, supplier.Name, supplier.PhoneNumber, supplier.Inn, supplier.Ogrn);
+
+                shortList.Add(supplierShort);
+            }
+
+            return shortList;
+        }
     }
 }
