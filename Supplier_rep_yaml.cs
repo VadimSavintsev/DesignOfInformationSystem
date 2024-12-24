@@ -44,5 +44,11 @@ namespace Program
             var yaml = serializer.Serialize(suppliers);
             File.WriteAllText(filePath, yaml);
         }
+
+        public Supplier GetSupplierById(int id)
+        {
+            var suppliers = ReadAllValues();
+            return suppliers.FirstOrDefault(supplier => supplier.Id == id);
+        }
     }
 }
