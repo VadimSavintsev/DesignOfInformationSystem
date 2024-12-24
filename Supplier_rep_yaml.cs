@@ -117,5 +117,11 @@ namespace Program
             suppliers.Remove(supplierToDelete);
             WriteAllValues(suppliers);
         }
+
+        public int GetCount()
+        {
+            var suppliers = ReadAllValues();
+            return suppliers.Count;
+        }
     }
 }
