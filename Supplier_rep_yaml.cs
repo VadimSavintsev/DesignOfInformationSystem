@@ -103,5 +103,19 @@ namespace Program
             newSupplier.Id = id;
             WriteAllValues(suppliers);
         }
+
+        public void DeleteSupplierById(int id)
+        {
+            var suppliers = ReadAllValues();
+            var supplierToDelete = suppliers.FirstOrDefault(supplier => supplier.Id == id);
+
+            if (supplierToDelete == null)
+            {
+                throw new ArgumentException($"Поставщик с ID {id} не найден.");
+            }
+
+            suppliers.Remove(supplierToDelete);
+            WriteAllValues(suppliers);
+        }
     }
 }
