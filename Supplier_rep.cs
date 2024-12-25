@@ -53,8 +53,8 @@ namespace Program
         public bool IsSupplierUnique(Supplier newSupplier, List<Supplier> suppliers)
         {
             // Проверяем, есть ли поставщик с таким же ИНН или ОГРН
-            bool isInnUnique = !suppliers.Any(s => s.Inn == newSupplier.Inn);
-            bool isOgrnUnique = !suppliers.Any(s => s.Ogrn == newSupplier.Ogrn);
+            bool isInnUnique = !suppliers.Any(supplier => supplier.Inn == newSupplier.Inn);
+            bool isOgrnUnique = !suppliers.Any(supplier => supplier.Ogrn == newSupplier.Ogrn);
 
             // Возвращаем true, если оба поля уникальны
             return isInnUnique && isOgrnUnique;
