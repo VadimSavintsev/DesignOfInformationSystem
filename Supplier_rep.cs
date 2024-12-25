@@ -50,9 +50,23 @@ namespace Program
             return suppliers.OrderBy(supplier => supplier.Inn).ToList();
         }
 
+        public bool IsSupplierUnique(Supplier newSupplier, List<Supplier> suppliers)
+        {
+            // Проверяем, есть ли поставщик с таким же ИНН или ОГРН
+            bool isInnUnique = !suppliers.Any(s => s.Inn == newSupplier.Inn);
+            bool isOgrnUnique = !suppliers.Any(s => s.Ogrn == newSupplier.Ogrn);
+
+            // Возвращаем true, если оба поля уникальны
+            return isInnUnique && isOgrnUnique;
+        }
+
         public void AddSupplier(Supplier newSupplier)
         {
             var suppliers = ReadAllValues();
+            if (!IsSupplierUnique(newSupplier, suppliers))
+            {
+                throw new InvalidOperationException("Поставщик с таким ИНН или ОГРН уже существует.");
+            }
             int? maxId = suppliers.Count > 0 ? suppliers.Max(supplier => supplier.Id) : null;
             int newId = maxId.HasValue ? maxId.Value + 1 : 1;
             newSupplier.Id = newId;
@@ -63,6 +77,10 @@ namespace Program
         public void ReplaceSupplierById(int id, Supplier newSupplier)
         {
             var suppliers = ReadAllValues();
+            if (!IsSupplierUnique(newSupplier, suppliers))
+            {
+                throw new InvalidOperationException("Поставщик с таким ИНН или ОГРН уже существует.");
+            }
             var existingSupplier = suppliers.FirstOrDefault(supplier => supplier.Id == id);
 
             if (existingSupplier == null)
