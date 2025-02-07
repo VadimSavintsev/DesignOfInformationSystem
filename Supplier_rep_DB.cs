@@ -183,4 +183,25 @@ public class Supplier_rep_DB
             }
         }
     }
+
+    public int GetCount()
+    {
+        var query = "SELECT COUNT(*) FROM Suppliers;";
+        using (var connection = new NpgsqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при получении количества поставщиков: {ex.Message}");
+                return -1;
+            }
+        }
+    }
 }
