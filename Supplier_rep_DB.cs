@@ -123,41 +123,64 @@ public class Supplier_rep_DB
     }
 
     public bool ReplaceSupplier(int id, Supplier newSupplier)
-{
-    var query = @"
-        UPDATE Suppliers
-        SET Name = @Name,
-            Address = @Address,
-            PhoneNumber = @PhoneNumber,
-            Email = @Email,
-            Inn = @Inn,
-            Ogrn = @Ogrn
-        WHERE Id = @Id;";
-
-    using (var connection = new NpgsqlConnection(connectionString))
     {
-        try
-        {
-            connection.Open();
-            using (var command = new NpgsqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Id", id);
-                command.Parameters.AddWithValue("@Name", newSupplier.Name);
-                command.Parameters.AddWithValue("@Address", newSupplier.Address);
-                command.Parameters.AddWithValue("@PhoneNumber", newSupplier.PhoneNumber);
-                command.Parameters.AddWithValue("@Email", newSupplier.Email);
-                command.Parameters.AddWithValue("@Inn", newSupplier.Inn);
-                command.Parameters.AddWithValue("@Ogrn", newSupplier.Ogrn);
+        var query = @"
+            UPDATE Suppliers
+            SET Name = @Name,
+                Address = @Address,
+                PhoneNumber = @PhoneNumber,
+                Email = @Email,
+                Inn = @Inn,
+                Ogrn = @Ogrn
+            WHERE Id = @Id;";
 
-                int rowsAffected = command.ExecuteNonQuery();
-                return rowsAffected > 0;
+        using (var connection = new NpgsqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@Name", newSupplier.Name);
+                    command.Parameters.AddWithValue("@Address", newSupplier.Address);
+                    command.Parameters.AddWithValue("@PhoneNumber", newSupplier.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", newSupplier.Email);
+                    command.Parameters.AddWithValue("@Inn", newSupplier.Inn);
+                    command.Parameters.AddWithValue("@Ogrn", newSupplier.Ogrn);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при замене поставщика: {ex.Message}");
+                return false;
             }
         }
-        catch (Exception ex)
+    }
+
+    public bool DeleteSupplier(int id)
+    {
+        var query = "DELETE FROM Suppliers WHERE Id = @Id;";
+        using (var connection = new NpgsqlConnection(connectionString))
         {
-            Console.WriteLine($"Ошибка при замене поставщика: {ex.Message}");
-            return false;
+            try
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при удалении поставщика: {ex.Message}");
+                return false;
+            }
         }
     }
-}
 }
