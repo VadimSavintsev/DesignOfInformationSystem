@@ -3,20 +3,25 @@ using OOP;
 
 public class Supplier_rep_DB
 {
-    private readonly string connectionString;
+    private DBConnection dbConnection;
 
-    public Supplier_rep_DB(string connectionString)
+    public Supplier_rep_DB(DBConnection dbConnection)
     {
-        connectionString = connectionString;
+        this.dbConnection = dbConnection;
     }
-        public Supplier GetSupplierById(int supplierId)
+
+    private NpgsqlConnection GetConnection()
+    {
+        return dbConnection.GetConnection();
+    }
+    
+    public Supplier GetSupplierById(int supplierId)
     {
         var query = "SELECT * FROM Suppliers WHERE Id = @Id;";
-        using (var connection = new NpgsqlConnection(connectionString))
+        using (var connection = GetConnection())
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", supplierId);
@@ -53,11 +58,10 @@ public class Supplier_rep_DB
     public List<SupplierShort> GetKNSuppliers(int k, int n)
     {
         var query = "SELECT * FROM Suppliers ORDER BY Id LIMIT @Limit OFFSET @Offset;";
-        using (var connection = new NpgsqlConnection(connectionString))
+        using (var connection = GetConnection())
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Limit", k);
@@ -96,11 +100,10 @@ public class Supplier_rep_DB
         VALUES (@Name, @Address, @PhoneNumber, @Email, @INN, @OGRN)
         RETURNING Id;";
 
-        using (var connection = new NpgsqlConnection(connectionString))
+        using (var connection = GetConnection())
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Name", supplier.Name);
@@ -134,11 +137,10 @@ public class Supplier_rep_DB
                 Ogrn = @Ogrn
             WHERE Id = @Id;";
 
-        using (var connection = new NpgsqlConnection(connectionString))
+        using (var connection = GetConnection())
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -164,11 +166,10 @@ public class Supplier_rep_DB
     public bool DeleteSupplier(int id)
     {
         var query = "DELETE FROM Suppliers WHERE Id = @Id;";
-        using (var connection = new NpgsqlConnection(connectionString))
+        using (var connection = GetConnection())
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -191,7 +192,6 @@ public class Supplier_rep_DB
         {
             try
             {
-                connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     return Convert.ToInt32(command.ExecuteScalar());
