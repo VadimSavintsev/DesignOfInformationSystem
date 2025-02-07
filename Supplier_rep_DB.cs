@@ -88,4 +88,37 @@ public class Supplier_rep_DB
             }
         }
     }
+
+    public Supplier AddSupplier(Supplier supplier)
+    {    
+        var query = @"
+        INSERT INTO Suppliers (Name, Address, PhoneNumber, Email, INN, OGRN)
+        VALUES (@Name, @Address, @PhoneNumber, @Email, @INN, @OGRN)
+        RETURNING Id;";
+
+        using (var connection = new NpgsqlConnection(connectionString))
+        {
+            try
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Name", supplier.Name);
+                    command.Parameters.AddWithValue("@Address", supplier.Address);
+                    command.Parameters.AddWithValue("@PhoneNumber", supplier.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", supplier.Email);
+                    command.Parameters.AddWithValue("@Inn", supplier.Inn);
+                    command.Parameters.AddWithValue("@Ogrn", supplier.Ogrn);
+                    var newId = (int)command.ExecuteScalar();
+                    supplier.Id = newId;
+                    return supplier;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при добавлении поставщика: {ex.Message}");
+                return null;
+            }
+        }
+    }
 }
