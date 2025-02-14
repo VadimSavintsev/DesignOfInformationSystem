@@ -81,6 +81,8 @@ namespace OOP_new
             nextButton.Location = new Point(0, 300);
             buttonPanel.Controls.Add(nextButton);
 
+            controller.GetModel().AddObserver((SupplierObserver)this);
+
             RefreshTable();
         }
 
