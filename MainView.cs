@@ -2,7 +2,7 @@ using System.Data;
 
 namespace OOP_new
 {
-    public class MainView : Form
+    public class MainView : Form, SupplierObserver
     {
         private MainController controller;
         private DataGridView supplierTable;
@@ -81,7 +81,7 @@ namespace OOP_new
             nextButton.Location = new Point(0, 300);
             buttonPanel.Controls.Add(nextButton);
 
-            controller.GetModel().AddObserver((SupplierObserver)this);
+            controller.GetModel().AddObserver(this);
 
             RefreshTable();
         }
@@ -185,6 +185,10 @@ namespace OOP_new
                     MessageBox.Show("Ошибка при удалении поставщика: " + e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+        public void Update(string action, object data)
+        {
+            Console.WriteLine($"MainView received action: {action} with data: {data}");
         }
     }
 }
