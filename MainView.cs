@@ -133,6 +133,7 @@ namespace OOP_new
             this.Invoke((MethodInvoker)delegate
             {
                 new AddUpdateSupplierView(new AddSupplierController(controller.GetModel()), "Добавить", null).Show();
+                RefreshTable();
             });
         }
 
@@ -153,6 +154,7 @@ namespace OOP_new
                 this.Invoke((MethodInvoker)delegate
                 {
                     new AddUpdateSupplierView(new UpdateSupplierController(controller.GetModel(), supplierId), "Редактировать", driver).Show();
+                    RefreshTable();
                 });
             }
             else
