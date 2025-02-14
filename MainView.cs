@@ -46,18 +46,39 @@ namespace OOP_new
             buttonPanel.Dock = DockStyle.Right;
             Controls.Add(buttonPanel);
 
+            Button addButton = new Button();
+            addButton.Text = "Добавить водителя";
+            addButton.Click += (sender, e) => OpenAddSupplierWindow();
+            addButton.Size = new System.Drawing.Size(100, 30);
+            addButton.Location = new Point(0, 100);
+            buttonPanel.Controls.Add(addButton);
+
+            Button updateButton = new Button();
+            updateButton.Text = "Редактировать";
+            updateButton.Click += (sender, e) => ViewSupplierDetails();
+            updateButton.Size = new System.Drawing.Size(100, 30);
+            updateButton.Location = new Point(0, 150);
+            buttonPanel.Controls.Add(updateButton);
+
+            Button deleteButton = new Button();
+            deleteButton.Text = "Удалить водителя";
+            deleteButton.Click += (sender, e) => DeleteSupplier();
+            deleteButton.Size = new System.Drawing.Size(100, 30);
+            deleteButton.Location = new Point(0, 200);
+            buttonPanel.Controls.Add(deleteButton);
+
             Button prevButton = new Button();
             prevButton.Text = "Предыдущий";
             prevButton.Click += (sender, e) => PrevPage();
             prevButton.Size = new System.Drawing.Size(100, 30);
-            prevButton.Location = new Point(0, 100);
+            prevButton.Location = new Point(0, 250);
             buttonPanel.Controls.Add(prevButton);
 
             Button nextButton = new Button();
             nextButton.Text = "Следующий";
             nextButton.Click += (sender, e) => NextPage();
             nextButton.Size = new System.Drawing.Size(100, 30);
-            nextButton.Location = new Point(0, 150);
+            nextButton.Location = new Point(0, 300);
             buttonPanel.Controls.Add(nextButton);
 
             RefreshTable();
@@ -75,7 +96,7 @@ namespace OOP_new
                 return;
             }
 
-            int startIndex = (currentPage - 1) * pageSize + 1;
+            int startIndex = currentPage;
             for (int i = 0; i < suppliers.Count; i++)
             {
                 SupplierShort supplier = suppliers[i];
@@ -103,6 +124,65 @@ namespace OOP_new
         {
             currentPage++;
             RefreshTable();
+        }
+
+        private void OpenAddSupplierWindow()
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                new AddUpdateSupplierView(new AddSupplierController(controller.GetModel()), "Добавить", null).Show();
+            });
+        }
+
+        private void ViewSupplierDetails()
+        {        
+            int selectedRow = supplierTable.SelectedRows[0].Index;
+            if (selectedRow == -1)
+            {
+                MessageBox.Show("Выберите поставщика для редактирования", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int supplierId = controller.GetSupplierIdByRowIndex((currentPage - 1) * pageSize + selectedRow);
+            Supplier driver = controller.GetSupplierById(supplierId);
+
+            if (driver != null)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    new AddUpdateSupplierView(new UpdateSupplierController(controller.GetModel(), supplierId), "Редактировать", driver).Show();
+                });
+            }
+            else
+            {
+                MessageBox.Show("Не удалось найти поставщика", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void DeleteSupplier()
+        {
+            int selectedRow = supplierTable.SelectedRows[0].Index;
+            if (selectedRow == -1)
+            {
+                MessageBox.Show("Выберите водителя для удаления", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int driverId = controller.GetSupplierIdByRowIndex((currentPage - 1) * pageSize + selectedRow);
+            DialogResult confirm = MessageBox.Show("Вы уверены, что хотите удалить поставщика?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                try
+                {
+                    controller.DeleteSupplier(driverId);
+                    MessageBox.Show("Поставщик успешно удален!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshTable();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Ошибка при удалении поставщика: " + e.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
