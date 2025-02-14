@@ -47,7 +47,7 @@ namespace OOP_new
             Controls.Add(buttonPanel);
 
             Button addButton = new Button();
-            addButton.Text = "Добавить водителя";
+            addButton.Text = "Добавить";
             addButton.Click += (sender, e) => OpenAddSupplierWindow();
             addButton.Size = new System.Drawing.Size(100, 30);
             addButton.Location = new Point(0, 100);
@@ -61,7 +61,7 @@ namespace OOP_new
             buttonPanel.Controls.Add(updateButton);
 
             Button deleteButton = new Button();
-            deleteButton.Text = "Удалить водителя";
+            deleteButton.Text = "Удалить";
             deleteButton.Click += (sender, e) => DeleteSupplier();
             deleteButton.Size = new System.Drawing.Size(100, 30);
             deleteButton.Location = new Point(0, 200);
